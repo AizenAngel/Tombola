@@ -1,0 +1,83 @@
+.fa {
+padding: 20px;
+font-size: 30px;
+width: 70px;
+text-align: center;
+text-decoration: none;
+}
+
+#main{
+    margin-top: 20px;
+
+}
+
+body{
+background-color: #FFDC00;
+}
+
+input[type="number"]{
+border-radius: 10px;
+height: 40px;
+width: 60px;
+font-size: 30px;
+}
+
+button[class="btn btn-success"]{
+font-size: 30px;
+}
+
+button[class="btn btn-submit"]{
+font-size: 20px;
+}
+
+tr:first-child td{
+border: 1px solid black;
+height: 50px;
+width: 50px;
+background-color:#FFED86;
+font-size: 20px;
+font-weight: bold;
+}
+
+.fa-facebook {
+background: #3B5998;
+color: white;
+margin: 5px;
+}
+
+.fa-instagram{
+background: #125688;
+color: white;
+margin: 5px;
+}
+
+.fa-linkedin {
+background: #007bb5;
+color: white;
+margin: 5px;
+}
+
+table {
+font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+border-collapse: collapse;
+width: 50%;
+}
+
+
+#trenutni_pobednici td, #trenutni_pobednici th {
+border: 1px solid #ddd;
+padding: 8px;
+text-align: center;
+}
+
+#trenutni_pobednici tr{
+background-color: #f2f2f2;
+} 
+
+#social_media{
+position: absolute;
+left: 0px; 
+top: 20px;
+width: 30px;
+height: 30%;
+}
