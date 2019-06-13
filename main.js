@@ -4,6 +4,8 @@ let brojevi = [];
 let pobednici = [];
 let trenutni_pobednici = [];
 let flag = false;
+let g_index = 0;
+let player_index = 1;
 
 function shuffle(arra1) {
     var ctr = arra1.length, temp, index;
@@ -26,9 +28,11 @@ clearError=()=>{
 for(let i = 0; i < 36; i++)
   brojevi.push(i+1);
 
-function linear_search(arr, x){  
-  for(let i = 0; i < arr.length; i++){
-      if(arr[i] == x)
+brojevi = shuffle(brojevi);
+
+function linear_search(x, n){  
+  for(let i = 0; i < n; i++){
+      if(brojevi[i] == x)
         return true;
   }
   return false;
@@ -91,68 +95,81 @@ $("document").ready(()=>{
           $(`.num${i+1}`).css('color','black');
         }
 
+        $(".igraci").append(`<h2>${player_index}. ${ime.val()}</h2>`);
+        
+        player_index++;
+
         for(let i = 0; i < 6; i++){
           $(`.num${i+1}`).val("");
         }
 
+
+        
         ime.val("");
         $(".error").text("Igrac prijavljen!").css('color','green');
         clearError();
-        console.log(igraci);
+//        console.log(igraci);
     }
   });
 
   $("#izvuci").on('click', ()=>{
-      $(".pobednik").html("");
-      brojevi = shuffle(brojevi);
-      //console.log(brojevi);
-      array = [];
-      let flag = false;
-  
-      for(let i = 0; i < 6; i++){
-        array.push(brojevi[i]); 
+      if(igraci.length == 0){
+       $(".error").text('Prijavite igrace za igru!').css('color', 'red');
+       clearError();
+       return false;
       }
-  
-      for(let i = 6; i < 36; i++){ 
-        for(let k = 0; k < igraci.length; k++){
-            for(let j = 0; j < 6; j++){
-                if(!linear_search(array, igraci[k][j+1])){
-                     break;
-                 }else if(j == 5){
-                   trenutni_pobednici.push(igraci[k]);
-                   flag = true;
-                   break;
-                 }
-             }
-        }
-        if(flag){
-            $('#trenutni_pobednici').html("");
-            if(trenutni_pobednici.length > 1){
-              $(".pobednik").html("<h2>Trenutni pobednici su: </h2>");
-            } else $(".pobednik").html("<h2>Trenutni pobednik je: </h2>");
-            
-            for(let q = 0; q < trenutni_pobednici.length; q++){
-              $(".pobednik").append(`<h2>${q+1}. ${trenutni_pobednici[q][0]},
-              sa kombinacijom:
-              ${trenutni_pobednici[q][1]},  
-              ${trenutni_pobednici[q][2]},  
-              ${trenutni_pobednici[q][3]},  
-              ${trenutni_pobednici[q][4]},  
-              ${trenutni_pobednici[q][5]},  
-              ${trenutni_pobednici[q][6]}</h2>`);
-              
-              pobednici.push(trenutni_pobednici[q]);
-            }
-            console.log(array);
-            console.log("pobednici: " + pobednici);
-            trenutni_pobednici.splice(0, trenutni_pobednici.length);
+      
+      if(trenutni_pobednici.length > 0){
+        $(".error").text('Igra je vec zavrsena, kliknite na dugme igraj opet da ponovo igrate!').css('color', 'red');
+        clearError();
+        return false;
+      } 
+
+      let flag1 = false;
+      
+      $(".brojevi").append(`<span class='add'>${brojevi[g_index]}</span>`);
+      
+      let testFlag = true;
+
+      for(let i = 0; i < igraci.length; i++){
+        for(let j = 1; j < 7; j++){
+          if(!linear_search(igraci[i][j], g_index)){
+            testFlag = false;
             break;
-        } 
-        else{
-          array.push(brojevi[i]);
-          //console.log(array);
-        }  
+          }else{
+            
+          }
+        }
+        if(testFlag){
+          trenutni_pobednici.push(igraci[i]);
+          flag1 = true;
+        }
       }
+  
+      if(flag1){
+          $(".brojevi").html("");
+          $(".pobednik").html("");
+          $('#trenutni_pobednici').html("");
+          if(trenutni_pobednici.length > 1){
+            $(".pobednik").html("<h2>Trenutni pobednici su: </h2>");
+          } else $(".pobednik").html("<h2>Trenutni pobednik je: </h2>");
+          
+          for(let q = 0; q < trenutni_pobednici.length; q++){
+            $(".pobednik").append(`<h2>${q+1}. ${trenutni_pobednici[q][0]},
+            sa kombinacijom:
+            ${trenutni_pobednici[q][1]},  
+            ${trenutni_pobednici[q][2]},  
+            ${trenutni_pobednici[q][3]},  
+            ${trenutni_pobednici[q][4]},  
+            ${trenutni_pobednici[q][5]},  
+            ${trenutni_pobednici[q][6]}</h2>`);
+            
+            pobednici.push(trenutni_pobednici[q]);
+          }
+  //        console.log("pobednici: " + pobednici);
+      }else{
+        g_index++;
+      }  
   });
 
   $("#pobednici").on('click',()=>{
@@ -170,11 +187,15 @@ $("document").ready(()=>{
     });
 
   $("#ponovo").on('click', ()=>{
+    $(".igraci").html("");
+    player_index = 0;
+    g_index = 0;
     clicked = false;
     flag = false;
     $(".pobednik").text(""); 
     igraci.splice(0, igraci.length);
-    shuffle(brojevi);
+    trenutni_pobednici.splice(0, trenutni_pobednici.length);
+    brojevi = shuffle(brojevi);
     $('#trenutni_pobednici').html("");
   });
 });
