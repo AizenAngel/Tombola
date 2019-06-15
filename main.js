@@ -95,7 +95,9 @@ $("document").ready(()=>{
           $(`.num${i+1}`).css('color','black');
         }
 
-        $(".igraci").append(`<h2>${player_index}. ${ime.val()}</h2>`);
+        $(".igraci").append(`<h2>${player_index}. ${ime.val()} <span class='add ${6*(player_index-1)}'>${numbers[0].val()}</span>
+        <span class='add ${6*(player_index-1)+1}'>${numbers[1].val()}</span> <span class='add ${6*(player_index-1) +2}'>${numbers[2].val()}</span> <span class='add ${6*(player_index-1) +3}'>${numbers[3].val()}</span>
+        <span class='add ${6*(player_index-1) + 4}'>${numbers[4].val()}</span> <span class='add ${6*(player_index-1) + 5}'>${numbers[5].val()}</span></h2>`);
         
         player_index++;
 
@@ -113,6 +115,8 @@ $("document").ready(()=>{
   });
 
   $("#izvuci").on('click', ()=>{
+     console.log(trenutni_pobednici);
+
       if(igraci.length == 0){
        $(".error").text('Prijavite igrace za igru!').css('color', 'red');
        clearError();
@@ -130,17 +134,18 @@ $("document").ready(()=>{
       $(".brojevi").append(`<span class='add'>${brojevi[g_index]}</span>`);
       
       let testFlag = true;
-
+      let matchingNumbers;
+      
       for(let i = 0; i < igraci.length; i++){
+        matchingNumbers = 0;
         for(let j = 1; j < 7; j++){
-          if(!linear_search(igraci[i][j], g_index)){
-            testFlag = false;
-            break;
-          }else{
-            
+          if(linear_search(igraci[i][j], g_index)){
+           matchingNumbers++;
+           $(`.${6*i + j - 1}`).addClass('selected');
           }
         }
-        if(testFlag){
+        console.log(matchingNumbers);
+        if(matchingNumbers == 6){
           trenutni_pobednici.push(igraci[i]);
           flag1 = true;
         }
@@ -188,7 +193,7 @@ $("document").ready(()=>{
 
   $("#ponovo").on('click', ()=>{
     $(".igraci").html("");
-    player_index = 0;
+    player_index = 1;
     g_index = 0;
     clicked = false;
     flag = false;
