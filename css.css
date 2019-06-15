@@ -101,3 +101,6 @@
       right: 20px;
       width: 30%;
     }
+    .selected{
+        background-color: green;
+    }
