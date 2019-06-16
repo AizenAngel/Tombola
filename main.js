@@ -64,7 +64,7 @@ $("document").ready(()=>{
     }    
 
     if(ime.val()==""){
-      $(".error").text("Igrac mora imati ime!").css('color','red');
+      $(".error").text("Igrač mora imati ime!").css('color','red');
       clearError();
       return;
     }
@@ -75,7 +75,7 @@ $("document").ready(()=>{
     if(check[0] != ""){
       for(let i = 0; i < 5; i++){
         if(check[i] === check[i+1]){
-          $(".error").text("Brojevi moraju biti medjusobno razliciti!").css('color','red');
+          $(".error").text("Brojevi moraju biti međusobno različiti!").css('color','red');
           clearError();
           return;
         }
@@ -108,7 +108,7 @@ $("document").ready(()=>{
 
         
         ime.val("");
-        $(".error").text("Igrac prijavljen!").css('color','green');
+        $(".error").text("Igrač prijavljen!").css('color','green');
         clearError();
 //        console.log(igraci);
     }
@@ -118,13 +118,13 @@ $("document").ready(()=>{
      console.log(trenutni_pobednici);
 
       if(igraci.length == 0){
-       $(".error").text('Prijavite igrace za igru!').css('color', 'red');
+       $(".error").text('Prijavite igrače za igru!').css('color', 'red');
        clearError();
        return false;
       }
       
       if(trenutni_pobednici.length > 0){
-        $(".error").text('Igra je vec zavrsena, kliknite na dugme igraj opet da ponovo igrate!').css('color', 'red');
+        $(".error").text('Igra je vec završena, kliknite na dugme igraj opet da ponovo igrate!').css('color', 'red');
         clearError();
         return false;
       } 
