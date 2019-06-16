@@ -96,11 +96,27 @@
     }
 
     .igraci{
-      position: absolute;
-      top: 10px;
-      right: 20px;
-      width: 30%;
+        position: absolute;
+        top: 10px;
+        right: 50px;
+        width: 30%;
     }
+    
     .selected{
         background-color: green;
+    }
+
+    @media screen and (max-width: 1340px){
+        #social_media{
+            position: relative;
+            margin-left: 90px;
+        }
+     }
+
+    @media screen and (max-width: 990px){
+       .igraci{
+           position: relative;
+           margin-left: 90px;
+           width:100%;
+       }
     }
