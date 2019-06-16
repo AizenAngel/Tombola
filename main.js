@@ -4,7 +4,7 @@ let brojevi = [];
 let pobednici = [];
 let trenutni_pobednici = [];
 let flag = false;
-let g_index = 0;
+let g_index = 1;
 let player_index = 1;
 
 function shuffle(arra1) {
@@ -131,7 +131,7 @@ $("document").ready(()=>{
 
       let flag1 = false;
       
-      $(".brojevi").append(`<span class='add'>${brojevi[g_index]}</span>`);
+      $(".brojevi").append(`<span class='add'>${brojevi[g_index-1]}</span>`);
       
       let testFlag = true;
       let matchingNumbers;
@@ -194,7 +194,7 @@ $("document").ready(()=>{
   $("#ponovo").on('click', ()=>{
     $(".igraci").html("");
     player_index = 1;
-    g_index = 0;
+    g_index = 1;
     clicked = false;
     flag = false;
     $(".pobednik").text(""); 
