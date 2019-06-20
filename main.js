@@ -126,10 +126,13 @@ $("document").ready(()=>{
         // lista igrača u koju dodajemo igrača sa njihovim tekućim kombinacijama
         // klasa add se koristi za specijalan format brojeva, a klasa 
         // ${6*(player_index-1)+k} da bismo lakše obojili broj ako je izabran
-        $(".igraci").append(`<h2>${player_index}. ${ime.val()} <span class='add ${6*(player_index-1)}'>${numbers[0].val()}</span>
+
+
+        $(".igraci").append(`<h2>${player_index}. <span class='shortenName'>${ime.val()}</span> <span class='add ${6*(player_index-1)}'>${numbers[0].val()}</span>
         <span class='add ${6*(player_index-1)+1}'>${numbers[1].val()}</span> <span class='add ${6*(player_index-1) +2}'>${numbers[2].val()}</span> <span class='add ${6*(player_index-1) +3}'>${numbers[3].val()}</span>
         <span class='add ${6*(player_index-1) + 4}'>${numbers[4].val()}</span> <span class='add ${6*(player_index-1) + 5}'>${numbers[5].val()}</span></h2>`);
-        
+        //maxLen: 15;
+
         player_index++;
         
         //nakon što smo uspešno dodali igrača, brišemo sva sva input polja.
@@ -146,7 +149,7 @@ $("document").ready(()=>{
   });
 
   $("#izvuci").on('click', ()=>{
-     console.log(trenutni_pobednici);
+    // console.log(trenutni_pobednici);
       
       //ako nema prijavljenih igrača, igra ne može da krene, jer nema ko da igra
       if(igraci.length == 0){
@@ -179,8 +182,12 @@ $("document").ready(()=>{
           // u trenutno generisanoj. 
           if(linear_search(igraci[i][j], g_index)){
            matchingNumbers++;
-           $(`.${6*i + j - 1}`).addClass('selected');
+           //animacija koja menja boju pola sekunde
+            $( `.${6*i + j - 1}` ).animate({
+             'background-color': "green"
+           },500);
           }
+
         }
         
         //ako su svi brojevi iz kombinacije i-tog igrača nađeni, on je dodat u listu
@@ -203,7 +210,7 @@ $("document").ready(()=>{
           } else $(".pobednik").html("<h2>Trenutni pobednik je: </h2>");
           
           for(let q = 0; q < trenutni_pobednici.length; q++){
-            $(".pobednik").append(`<h2>${q+1}. ${trenutni_pobednici[q][0]},
+            $(".pobednik").append(`<h2 class='winner'>${q+1}. ${trenutni_pobednici[q][0]},
             sa kombinacijom:
             ${trenutni_pobednici[q][1]},  
             ${trenutni_pobednici[q][2]},  
