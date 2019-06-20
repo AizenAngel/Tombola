@@ -1,122 +1,192 @@
-    .fa {
-        padding: 20px;
-        font-size: 30px;
-        width: 70px;
-        text-align: center;
-        text-decoration: none;
-    }
-    
-    #main{
-        margin-top: 20px;
-    }
-    
-    body{
-        background-color: #FFDC00;
-    }
-    
-    input[type="number"]{
-        border-radius: 10px;
-        height: 40px;
-        width: 60px;
-        font-size: 30px;
-    }
-    
-    button[class="btn btn-success"]{
-        font-size: 30px;
-    }
-    
-    button[class="btn btn-submit"]{
-        font-size: 20px;
-    }
-    
-    tr:first-child td{
-        border: 1px solid black;
-        height: 50px;
-        width: 50px;
-        background-color:#FFED86;
-        font-size: 20px;
-        font-weight: bold;
-    }
-    
-    .fa-facebook {
-        background: #3B5998;
-        color: white;
-        margin: 5px;
-    }
-    
-    .fa-instagram{
-        background: #125688;
-        color: white;
-        margin: 5px;
-    }
-    
-    .fa-linkedin {
-        background: #007bb5;
-        color: white;
-        margin: 5px;
-    }
-    
-    table {
-        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-        border-collapse: collapse;
-        width: 50%;
-    }
-    
+.fa {
+    padding: 20px;
+    font-size: 30px;
+    width: 70px;
+    text-align: center;
+    text-decoration: none;
+}
+
+#main{
+    margin-top: 20px;
+}
+
+body{
+    background-color: #FFDC00;
+}
+
+input[type="number"]{
+    border-radius: 10px;
+    height: 40px;
+    width: 60px;
+    font-size: 30px;
+}
+
+button[class="btn btn-success"]{
+    font-size: 30px;
+}
+
+button[class="btn btn-submit"]{
+    font-size: 20px;
+}
+
+tr:first-child td{
+    border: 1px solid black;
+    height: 50px;
+    width: 50px;
+    background-color:#FFED86;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.fa-facebook {
+    background: #3B5998;
+    color: white;
+    margin: 5px;
+}
+
+
+.fa-instagram{
+    background: #125688;
+    color: white;
+    margin: 5px;
+}
+
+.fa-linkedin {
+    background: #007bb5;
+    color: white;
+    margin: 5px;
+}
+
+table {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 50%;
+}
+
+.winner{
+    width: 65%;
+}
+
+.add{
+    font-size: 30px;
+    margin: 5px;
+    height: 40px;
+    width: 40px;
+    background-color: #bbb;
+    border-radius: 50%;
+    text-align: center;
+    display: inline-block;
+}
+
+.brojevi{
+    width: 60%;
+}
+
+#trenutni_pobednici td, #trenutni_pobednici th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+#trenutni_pobednici tr{
+    background-color: #f2f2f2;
+} 
+
+#social_media{
+    position: absolute;
+    left: 0px; 
+    top: 20px;
+    width: 30px;
+    height: 30%;
+}
+
+.igraci{
+    padding-top: 0;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    max-width: 600px;
+}
+
+.justInline{
+    display: inline;
+}
+
+.shortenName {
+    width: 200px; 
+    display: inline-block;
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+
+@media screen and (max-width: 1754px){
     .add{
-        font-size: 30px;
+        font-size: 20px;
         margin: 5px;
-        height: 40px;
-        width: 40px;
+        height: 30px;
+        width: 30px;
         background-color: #bbb;
         border-radius: 50%;
         text-align: center;
         display: inline-block;
     }
-    
+
+    h2{
+      font-size:25px;
+    }
+
+    .winner{
+        width: 55%; 
+    }
+
     .brojevi{
-        width: 70%;
+        width: 55%;
     }
 
-    #trenutni_pobednici td, #trenutni_pobednici th {
-        border: 1px solid #ddd;
-        padding: 8px;
-        text-align: center;
-    }
-    
-    #trenutni_pobednici tr{
-        background-color: #f2f2f2;
-    } 
-    
-    #social_media{
-        position: absolute;
-        left: 0px; 
-        top: 20px;
-        width: 30px;
-        height: 30%;
-    }
+    .shortenName {
+        width: 170px; 
+        display: inline-block;
+        white-space: nowrap; 
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+}
 
-    .igraci{
-        position: absolute;
-        top: 10px;
-        right: 50px;
-        width: 30%;
-    }
-    
-    .selected{
-        background-color: green;
-    }
+@media screen and (max-width: 1344px){
+   #social_media{
+       display: none;
+   }
+   
+   .add{
+       font-size: 20px;
+       margin: 5px;
+       height: 25px;
+       width: 25px;
+       background-color: #bbb;
+       border-radius: 50%;
+       text-align: center;
+       display: inline-block;
+   }
 
-    @media screen and (max-width: 1340px){
-        #social_media{
-            position: relative;
-            margin-left: 90px;
-        }
-     }
+   h2{
+    font-size:25px;
+   }
 
-    @media screen and (max-width: 990px){
-       .igraci{
-           position: relative;
-           margin-left: 90px;
-           width:100%;
-       }
-    }
+   .winner{
+    width: 50%; 
+   }
+
+   .brojevi{
+    width: 50%;
+   }
+
+  .shortenName {
+    width: 170px; 
+    display: inline-block;
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
