@@ -1,7 +1,8 @@
 let igraci = []; //niz koji sadrži sve igrače, updejtuje se klikom na dugme
                 // Sačuvaj
 
-let kombinacija = []; //Ništa za sada :)
+let matchingNumbers = []; // koliko brojeva iz kombinacije brojeva svakog od igraca
+                          // se poklapa sa trenutno izvucenim brojevima
 
 let brojevi = []; // trenutna kombinacija brojeva 36 brojeva.
 
@@ -10,13 +11,12 @@ let pobednici = []; // niz koji sadrži pobednike koji se prikazuju u tabeli
 
 let trenutni_pobednici = []; // niz koji sadrži trenutne pobednike tekuće igre
 
-let flag = false; // polje koje koristimo da ispisujemo tabelu. Kada je flag = false
-                  // ispisujemo head tabele, a inace ispisujemo jedan po jedan red.
-
 let g_index = 1; // Koristi se da vidimo do kog poteza smo stigli. Updejtuje klikom na
                  // dugme Izvlačenje
 
 let player_index = 1; // koliko igrača je prijavljeno u tekućoj igri
+
+let gameOver = false;
 
 //funkcija koja meša elemente u nizu. Koristimo je za niz brojevi
 function shuffle(arra1) {  
@@ -49,19 +49,19 @@ brojevi = shuffle(brojevi);
 
 // linearno tražimo da li među prvih prijavljenih n elemenata niza brojevi,
 // postoji dati element x
-function linear_search(x, n){  
-  for(let i = 0; i < n; i++){
-      if(brojevi[i] == x)
-        return true;
+function linear_search(x, index){  
+  for(let i = 0; i < 6; i++){
+      if(igraci[index][i+1] == x)
+        return i+1;
   }
-  return false;
+  return -1;
 }
 
 //funkcija koja pravi tabelu
 // first je prvo polje koje dodajemo a last drugo(poslednje)
 // prosleđujemo i ID tabele
 makeTable = (tableID, first, last)=>{
-  tableID = document.getElementById(tableID);
+    tableID = document.getElementById(tableID);
     let newRow = tableID.insertRow(-1);
     let newCell = newRow.insertCell(0);
     let newCell1 = newRow.insertCell(1);
@@ -72,11 +72,17 @@ makeTable = (tableID, first, last)=>{
  }
 
 $("document").ready(()=>{
+  $("#trenutni_pobednici").hide();
   // na klik dugmeta Sačuvaj, proveravamo da li je pokušaj prijave igrača validan
   // Ako jeste, prijavljujemo ga i izbacujemo poruku da je igrač prijavljen i 
   // dodajemo ga u niz prijavljenih
   $("#sacuvaj").on('click', ()=>{
-    let flag = false;
+    if(gameOver){
+      $(".error").text("Igra je završena, kliknite na 'Igraj opet' da igra krene ponovo!").css('color', 'red');   
+      clearError();
+      return;
+    }
+    $("#trenutni_pobednici").hide();
     let ime = $("#ime");
     let numbers = [$(".num1"), $(".num2"), $(".num3"), $(".num4"), $(".num5"),
                    $(".num6")];
@@ -84,8 +90,10 @@ $("document").ready(()=>{
     // ako neki od brojeva ispada iz intervala [1,36]:               
     for(let i = 0; i < 6; i++){
       if(!(0 < numbers[i].val() && numbers[i].val() < 37)){
-        numbers[i].css('color', 'red');
-        flag = true;
+      //  numbers[i].css('color', 'red');
+      $(".error").text("Brojevi moraju biti u intervalu [1,36] i nijedno polje ne sme biti prazno!").css('color', 'red');   
+      clearError();
+      return;
       }
     }    
     // ako ime nije popunjeno
@@ -109,46 +117,43 @@ $("document").ready(()=>{
         }
       }
     }
-    
-
-    if(flag){ // ukoliko je došlo do greške
-      $(".error").text("Brojevi moraju biti u intervalu [1,36] i nijedno polje ne sme biti prazno!").css('color', 'red');   
-      clearError();
-      return;
-      }else{
-        igraci.push([ime.val(), numbers[0].val(), numbers[1].val(), numbers[2].val(),
-        numbers[3].val(), numbers[4].val(), numbers[5].val() ]);
-
-        for(let i = 0; i < 6; i++){
-          $(`.num${i+1}`).css('color','black');
-        }
-        
-        // lista igrača u koju dodajemo igrača sa njihovim tekućim kombinacijama
-        // klasa add se koristi za specijalan format brojeva, a klasa 
-        // ${6*(player_index-1)+k} da bismo lakše obojili broj ako je izabran
-
-
-        $(".igraci").append(`<h2>${player_index}. <span class='shortenName'>${ime.val()}</span> <span class='add ${6*(player_index-1)}'>${numbers[0].val()}</span>
-        <span class='add ${6*(player_index-1)+1}'>${numbers[1].val()}</span> <span class='add ${6*(player_index-1) +2}'>${numbers[2].val()}</span> <span class='add ${6*(player_index-1) +3}'>${numbers[3].val()}</span>
-        <span class='add ${6*(player_index-1) + 4}'>${numbers[4].val()}</span> <span class='add ${6*(player_index-1) + 5}'>${numbers[5].val()}</span></h2>`);
-        //maxLen: 15;
-
-        player_index++;
-        
-        //nakon što smo uspešno dodali igrača, brišemo sva sva input polja.
-
-        for(let i = 0; i < 6; i++){
-          $(`.num${i+1}`).val("");
-        }
       
-        ime.val("");
-        $(".error").text("Igrač prijavljen!").css('color','green');
-        clearError();
-//        console.log(igraci);
+    igraci.push([ime.val(), numbers[0].val(), numbers[1].val(), numbers[2].val(),
+    numbers[3].val(), numbers[4].val(), numbers[5].val() ]);
+    
+    matchingNumbers.push(0);
+
+    for(let i = 0; i < 6; i++){
+      $(`.num${i+1}`).css('color','black');
     }
+    
+    // lista igrača u koju dodajemo igrača sa njihovim tekućim kombinacijama
+    // klasa add se koristi za specijalan format brojeva, a klasa 
+    // ${6*(player_index-1)+k} da bismo lakše obojili broj ako je izabran
+
+
+    $(".igraci").append(`<h2>${player_index}. <span class='shortenName'>${ime.val()}</span> <span class='add ${6*(player_index-1)}'>${numbers[0].val()}</span>
+    <span class='add ${6*(player_index-1)+1}'>${numbers[1].val()}</span> <span class='add ${6*(player_index-1) +2}'>${numbers[2].val()}</span> <span class='add ${6*(player_index-1) +3}'>${numbers[3].val()}</span>
+    <span class='add ${6*(player_index-1) + 4}'>${numbers[4].val()}</span> <span class='add ${6*(player_index-1) + 5}'>${numbers[5].val()}</span></h2>`);
+    //maxLen: 15;
+
+    player_index++;
+    
+    //nakon što smo uspešno dodali igrača, brišemo sva sva input polja.
+
+    for(let i = 0; i < 6; i++){
+      $(`.num${i+1}`).val("");
+    }
+  
+    ime.val("");
+    $(".error").text("Igrač prijavljen!").css('color','green');
+    clearError();
+//        console.log(igraci);
+    
   });
 
   $("#izvuci").on('click', ()=>{
+    $("#trenutni_pobednici").hide();
     // console.log(trenutni_pobednici);
       
       //ako nema prijavljenih igrača, igra ne može da krene, jer nema ko da igra
@@ -161,7 +166,7 @@ $("document").ready(()=>{
       //ako su već određeni pobednici u tekućoj igri, nema potrebe da igra i dalje
       // traje
       if(trenutni_pobednici.length > 0){
-        $(".error").text('Igra je vec završena, kliknite na dugme igraj opet da ponovo igrate!').css('color', 'red');
+        $(".error").text("Igra je završena, kliknite na 'Igraj opet' da igra krene ponovo!").css('color', 'red');   
         clearError();
         return false;
       } 
@@ -170,29 +175,24 @@ $("document").ready(()=>{
       
       //dodajemo broj u listu brojeva
       $(".brojevi").append(`<span class='add'>${brojevi[g_index-1]}</span>`);
-      
+      let newNumber = brojevi[g_index-1]; 
       //promenjiva koja broji koliko brojeva je svaki od igrača pogodio 
-      let matchingNumbers;
       
       for(let i = 0; i < igraci.length; i++){
-        matchingNumbers = 0;
-        for(let j = 1; j < 7; j++){
-          // svaki put kada dodamo novi broj, prolazimo kroz listu svih igrača 
-          // i proveravamo koliko brojeva iz njihovih kombinacija se nalazi
-          // u trenutno generisanoj. 
-          if(linear_search(igraci[i][j], g_index)){
-           matchingNumbers++;
+       
+        let j = linear_search(newNumber, i); 
+
+        if(j != -1){
+           matchingNumbers[i]++;
            //animacija koja menja boju pola sekunde
             $( `.${6*i + j - 1}` ).animate({
              'background-color': "green"
            },500);
           }
-
-        }
         
         //ako su svi brojevi iz kombinacije i-tog igrača nađeni, on je dodat u listu
         // trenutnih pobednika
-        if(matchingNumbers == 6){
+        if(matchingNumbers[i] == 6){
           trenutni_pobednici.push(igraci[i]);
           flag1 = true;
         }
@@ -201,10 +201,11 @@ $("document").ready(()=>{
       // ako postoji barem jedan trenutni pobednik, dodajemo njega i njegovu 
       // kombinaciju brojeva u listu pobednika 
       if(flag1){
+          //console.log(matchingNumbers);
           // brišemo sadržaj div-a u kojem ćemo da prikazujemo pobednike
+          gameOver = true;
           $(".brojevi").html("");
           $(".pobednik").html("");
-          $('#trenutni_pobednici').html("");
           if(trenutni_pobednici.length > 1){
             $(".pobednik").html("<h2>Trenutni pobednici su: </h2>");
           } else $(".pobednik").html("<h2>Trenutni pobednik je: </h2>");
@@ -219,40 +220,32 @@ $("document").ready(()=>{
             ${trenutni_pobednici[q][5]},  
             ${trenutni_pobednici[q][6]}</h2>`);
             
-            pobednici.push(trenutni_pobednici[q]);
+            makeTable("trenutni_pobednici", trenutni_pobednici[q][0], trenutni_pobednici[q].slice(1, 7));
           }
   //        console.log("pobednici: " + pobednici);
       }else{
         g_index++;
       }  
-  });
+  }); 
   
-  //generišemo tabelu pobednika svih prethodnih igara
-  $("#pobednici").on('click',()=>{
+   //generišemo tabelu pobednika svih prethodnih igara
+   $("#pobednici").on('click',()=>{
     $(".pobednik").html("");
-      for(let i = 0; i < pobednici.length + 1; i++){
-        if(!flag){
-          makeTable("trenutni_pobednici", "Pobednici", "Kombinacije");
-          flag = true;
-          continue;
-        }
-        let name=pobednici[i-1][0];
-        let array = pobednici[i-1].slice(1, 7);
-        makeTable("trenutni_pobednici", name, array);
-      }
-    });
+    $("#trenutni_pobednici").show(); 
+   });
   
   //klikom na ovo dugme, sve se briše i igra kreće ponovo.
   $("#ponovo").on('click', ()=>{
+    gameOver = false;
+    matchingNumbers = []
+    $("#trenutni_pobednici").hide();
     $(".igraci").html("");
     player_index = 1;
     g_index = 1;
     clicked = false;
-    flag = false;
     $(".pobednik").text(""); 
     igraci.splice(0, igraci.length);
     trenutni_pobednici.splice(0, trenutni_pobednici.length);
     brojevi = shuffle(brojevi);
-    $('#trenutni_pobednici').html("");
-  });
+   });
 });
