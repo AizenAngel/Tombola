@@ -190,3 +190,46 @@ table {
     text-overflow: ellipsis;
   }
 }
+
+@media screen and (max-width: 1040px){
+    #social_media{
+        display: none;
+    }
+    
+    .add{
+        font-size: 20px;
+        margin: 5px;
+        height: 25px;
+        width: 25px;
+        background-color: #bbb;
+        border-radius: 50%;
+        text-align: center;
+        display: inline-block;
+    }
+ 
+    h2{
+     font-size:25px;
+    }
+ 
+    .winner{
+     width: 50%; 
+    }
+ 
+    .brojevi{
+     width: 100%;
+    }
+ 
+   .shortenName {
+     width: 20%; 
+     display: inline-block;
+     white-space: nowrap; 
+     overflow: hidden;
+     text-overflow: ellipsis;
+   }
+
+   .igraci{
+       position: relative;
+       top: 20px;
+       left: 20px;
+   }
+ }
