@@ -19,7 +19,7 @@ Prilikom unosa podataka, može doći do sledećih poruka:
 4) Ukoliko igrač unese dva ista broja u kombinaciji, dobiće poruku "Brojevi moraju biti međusobno različiti!" i neće moći da nastavi igru.
 5) Ukoliko su svi prethodni uslovi ispoštovani, igrač dobija poruku "Igrač prijavljen" i može da nastavi igru.
 6) Ukoliko dođe do pokušaja izvlačenja brojeva, dok nema prijavljenih igrača, izlazi poruka: "Prijavite igrače za igru!"
-7) Ukoliko dođe do pokušaja izvlačenja brojeva, nakon što je proglašen pobednik trenutne partije, izlazi poruka: "Igra je vec završena, kliknite na dugme igraj opet da ponovo igrate!".
+7) Ukoliko dođe do pokušaja izvlačenja brojeva ili prijavljivanje igrača, nakon što je proglašen pobednik trenutne partije, izlazi poruka: "Igra je vec završena, kliknite na dugme igraj opet da ponovo igrate!".
 
 Nakon prijavljivanja igrača, sa desne strane se pojavljuje njegovo ime sa njegovom odabranom kombinacijom. Kada je završena prijava svih igrača, igra može da počne, kliktanje dugmeta izvlačenje. Svaki put kada je izvučen broj koji se nalazi u kombinaciji jednog od igrača, taj broj dobije zelenu boju.
 Kada svih 6 kombinacija brojeva igrača "pozelene", igrač biva proglašen pobednikom i njegovo ime i kombinacija bivaju prijavljeni.
